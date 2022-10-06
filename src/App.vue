@@ -2,7 +2,7 @@
 import BaseInput from "./components/BaseInput.vue"
 
 import {useStore} from "./stores/store"
-import { reactive, computed, watch, onBeforeMount} from "vue";
+import {reactive, computed, watch, onBeforeMount, onMounted,} from "vue";
 import useVuelidate from "@vuelidate/core";
 import {required,helpers,email,} from "@vuelidate/validators"
 
@@ -12,7 +12,7 @@ const fullNameValidation = (value) => {
  return /^[a-zA-Z]+ [a-zA-Z]+$/.test(value)
 }
 
-const moscowNumberValidation = (value) => {
+const belarusNumberValidation = (value) => {
   return /^\+375 \(([0-9]{2})\) [0-9]{3}-[0-9]{2}-[0-9]{2}$/.test(value)
 }
 
@@ -26,7 +26,7 @@ const rules = computed(() => {
   return {
     fullName: {fullNameValidation:helpers.withMessage("Type in your full name separated by space", fullNameValidation)},
     email: {required,email: helpers.withMessage("Type in valid email address", email)},
-    phone: { moscowNumberValidation: helpers.withMessage("Phone number is not valid", moscowNumberValidation)}
+    phone: { belarusNumberValidation: helpers.withMessage("Phone number is not valid", belarusNumberValidation)}
   }
 });
 
@@ -49,6 +49,15 @@ onBeforeMount(async ()=>{
   await store.fetchData();
 })
 
+onMounted(()=>{
+  const element = document.getElementById('phone');
+  const maskOptions = {
+    mask: '+{375} (00) 000-00-00'
+  };
+  const mask = IMask(element, maskOptions);
+})
+
+
 </script>
 
 <template>
@@ -68,7 +77,7 @@ onBeforeMount(async ()=>{
           <div v-for="(error,index) in v$.email.$errors" :key="index" class="absolute text-red-500 font-bold">{{error.$message}}</div>
         </div>
         <div class="relative pb-[43px]">
-          <BaseInput x-mask="+375 (99) 999-99-99" v-model="formData.phone" placeholder="Phone" type="text" />
+          <BaseInput id="phone"  v-model="formData.phone" placeholder="Phone" type="text" />
           <div v-for="(error,index) in v$.phone.$errors" :key="index" class="absolute text-red-500 font-bold">{{error.$message}}</div>
         </div>
         <button type="submit" class="self-start active:translate-y-[2px] hover:text-black hover:bg-white text-white border-[2px] border-solid border-white px-[6px] py-[7px] rounded-[30px]" >Add</button>
@@ -101,5 +110,3 @@ onBeforeMount(async ()=>{
     </div>
   </main>
 </template>
-
-
