@@ -1,4 +1,4 @@
-# [LocalStorage Project Link](https://localstorage-ninja.netlify.app/)
+# [Project Link](https://localstorage20.netlify.app/)
 
 ## Project Setup
 
