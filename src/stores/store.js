@@ -1,9 +1,14 @@
 import { ref , computed, watch} from 'vue'
 import { defineStore } from 'pinia'
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 
 export const useStore = defineStore('store', () => {
 
+
+  const notyf = new Notyf();
   const usersData = ref(null);
   const checkedItems = ref([]);
   const search = ref('');
@@ -17,8 +22,16 @@ export const useStore = defineStore('store', () => {
   }
 
   function addUser(fullName, email, phone){
-    usersData.value.unshift({name: fullName, email, phone});
-    localStorage.setItem("usersData",JSON.stringify(usersData.value))
+    if(usersData.value.some(item => item.name === fullName)){
+      notyf.error('Name already exists');
+    }else if(usersData.value.some(item =>  item.email === email )){
+      notyf.error('Email address already exists');
+    }else if(usersData.value.some(item => item.phone === phone)) {
+      notyf.error('Phone number already exists');
+    } else{
+      usersData.value.unshift({name: fullName, email, phone,id: uuidv4()});
+      localStorage.setItem("usersData",JSON.stringify(usersData.value))
+    }
   }
 
   const deleteUser = () => computed( () => {

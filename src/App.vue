@@ -85,8 +85,8 @@ onMounted(()=>{
       <div>
         <ul >
           <li
-              v-for="(item,index) in  store.filterSearch().value"
-              :key="index"
+              v-for="item in  store.filterSearch().value"
+              :key="item.id"
               class="flex gap-10 mb-2 text-white">
             <input type="checkbox" :value="item" v-model="store.checkedItems">
             <div class="w-2/6">{{item.name}}</div>
@@ -100,7 +100,7 @@ onMounted(()=>{
             <div class="cursor-pointer hover:text-amber-700" @click="store.asc().value">asc</div><span>/</span><div class="cursor-pointer hover:text-amber-700" @click="store.desc().value">desc</div>
           </div>
           <div class="flex gap-[10px]">
-            <input class="outline-0 p-1 text-black rounded-[10px]" type="text" placeholder="Search" v-model="store.search">
+            <BaseInput class="outline-0 p-1 text-black rounded-[10px]" type="text" placeholder="Search" v-model="store.search"/>
             <div>users count : {{store.filterSearch().value?.length}}</div>
           </div>
         </div>

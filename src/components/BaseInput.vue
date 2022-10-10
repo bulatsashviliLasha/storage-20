@@ -1,6 +1,6 @@
 <template>
     <input
-           class="outline-0 p-1 w-[250px] rounded-[10px]"
+           class="outline-0 p-1"
            :value="modelValue"
            @input="$emit('update:modelValue', $event.target.value)"
            :placeholder="placeholder"
@@ -14,7 +14,7 @@ defineProps({
     type: [Boolean, String]
   },
   modelValue: {
-    type: String,
+    type: [Object, Array, String],
     default: ""
   }
 })
