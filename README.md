@@ -1,7 +1,5 @@
 # [Project Link](https://localstorage20.netlify.app/)
 
-## Project Setup
-
 ```sh
 npm install
 ```
